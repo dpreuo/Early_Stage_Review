@@ -1,0 +1,459 @@
+%!TEX root = ./main.tex
+\newpage
+
+\appendix
+
+\section{Proof of Bloch's Theorem}\label{appendix:bloch_proof}
+Bloch's theorem states that any Hamiltonian with crystalline periodic symmetry, where the particles move in a periodic potential, $V(\bf x)$ with
+\begin{align}
+    V(\bf x + \bf R) = V(\bf x),
+\end{align}
+must have eigenstates of the form
+\begin{align}
+    \psi_{n,\bf{k}}(\bf{x} )  = e^{i\bf{k}\cdot \hat{\bf{x}}}  u_{n,\bf{k}}(\bf{x} ) ,
+\end{align}
+where $\bf k$ is a wave vector that lies in the first Brioullin zone and the state $u_{n,\bf{k}}(\bf{x} )$ is periodic on the unit cell. \par
+Let's prove this. Since $V$ is periodic, it may be written as a sum of discrete Fourier components.
+\begin{align}
+    V(\bf{x}) = \sum_{\bf{G}} V_{\bf{G}} e^{i \bf{G} \cdot \bf{x}},
+\end{align}
+where the sum is over reciprocal lattice vectors. Now, writing the states $\psi$ in the Fourier basis
+\begin{equation}
+    \psi(\bf{x}) = \frac{1}{(2\pi)^n} \int d\bf{q}\ \tilde{\psi}(\bf{q})\ e^{i \bf{x}\cdot \bf{q}},
+\end{equation}
+we may rewrite the Schr\"{o}dinger equation as
+\begin{equation}
+    \int d\bf{q}\ \left ( \frac{\hbar^2 \bf{q}^2}{2m}- E + \sum_\bf{G}V_{\bf{G}} e^{i \bf{G} \cdot \bf{x}} \right )\tilde{\psi}(\bf{q})\ e^{i \bf{x}\cdot \bf{q}} = 0 .
+\end{equation}
+Now we can rewrite the second term on the LHS as
+\begin{align}
+    \int d\bf{q}\ \sum_\bf{G} V_\bf{G} e^{i\bf{G}\cdot\bf{x}} \tilde{\psi}(\bf{q})\ e^{i \bf{x}\cdot \bf{q}} = \int d\bf{q}\ \sum_\bf{G} V_\bf{G} \tilde{\psi}(\bf{q}-\bf{G})\ e^{i \bf{x}\cdot \bf{q}},
+\end{align}
+since the integral is over all possible values of $\bf{q}$. Thus, we get
+\begin{equation}
+    \int d\bf{q}\ \left [ \left ( \frac{\hbar^2 \bf{q}^2}{2m}- E  \right )\tilde{\psi}(\bf{q}) + \sum_\bf{G}V_{\bf{G}} \tilde{\psi}(\bf{q}-\bf{G})\ \right ] e^{i \bf{x}\cdot \bf{q}} = 0 .
+\end{equation}
+The term inside the bracket no longer has any more $\bf{x}$-dependence! This means that the condition must hold independently for all values of $\bf{q}$ in the integral. Thus we get the relation
+\begin{equation}\label{eqn:k_schrodinger}
+    \left ( \frac{\hbar^2 \bf{q}^2}{2m}- E  \right )\tilde{\psi}(\bf{q}) + \sum_\bf{G}V_{\bf{G}} \tilde{\psi}(\bf{q}-\bf{G})\ = 0 .
+\end{equation}
+What is happening here? We have almost managed to decouple the equations for $\psi(\bf{q})$ for different values of $\bf{q}$. We've been left with an expression that couples each $\psi(\bf{q})$ with all of the expressions that differ from it by a reciprocal lattice vector. This means that the coefficients of $\psi$ in the Brillouin zone are fully decoupled, but each comes with an infinite series of higher Fourier coefficients that are spaced out with the reciprocal lattice. Thus, for every value of $\bf{k}$ in the Brillouin zone, we can create a state $\psi_\bf{k}(\bf{x})$ that may be written as
+\begin{align}
+    \psi_\bf{k}(\bf{x}) = \sum_{G} C_\bf{G} e^{i\bf{x} \cdot (\bf{k}+\bf{G})}.
+\end{align}
+Pulling the $\bf{k}$ term out of the sum we get our final result
+\begin{align}
+    \psi_{\bf{k},n}(\bf{x}) &= e^{i \bf{k} \cdot \bf{x}}\sum_{G} C_\bf{G} e^{i\bf{x} \cdot \bf{G}}  \\
+    &=e^{i \bf{k} \cdot \bf{x}}\ u_{\bf{k},n}(\bf{x}),
+\end{align}
+where the $n$ subscript references the fact that equation \ref{eqn:k_schrodinger} may have multiple solutions, each denoting a different band in the material.\par
+Why should we expect $\bf{k}$ to live inside the first Brillouin zone? This is because if $\bf{k}$ is outside the Brillouin zone, then we can write $\bf{k} = \bm{\kappa} + \bf{G}$ where $\bm{\kappa}$ is in the first Brillouin zone and $\bf{G}$ is a reciprocal lattice vector. now our expression for $\psi$ becomes
+\begin{align}
+    \psi_{\bf{k},n}(\bf{x}) =e^{i \bm{\kappa} \cdot \bf{x}}e^{i \bf{G} \cdot \bf{x}}\ u_{\bf{k},n}(\bf{x}).
+\end{align}
+Here, $e^{i \bf{G} \cdot \bf{x}}$ is also periodic in the unit cell, so we can just incorporate it into the expression for $u_{\bf{k},n}(\bf{x})$.
+
+\section{Direct Calculation of Berry Curvature for a Two Level System} \label{sec:berry_curvature_two_level}
+
+We are tasked with finding the Berry curvature for the eigenstates of a general $2 \times 2 $ Hamiltonian, parametrised by a vector $\bf d$ in $\mathbb R^3$ according to
+\begin{align}
+    H = |\textbf{d}|\begin{pmatrix}
+\cos(\theta) &e^{-i\phi}\sin{\theta} \\ 
+ e^{i\phi}\sin{\theta}& -\cos(\theta)
+\end{pmatrix},
+\end{align}
+Where the vector is expressed in spherical polar coordinates. This Hamiltonian has positive and negative eigenstates with energy $\pm |\bf d |$ and wavefunctions
+\begin{align}
+    \ket{+_{\textbf{d}}} = \begin{pmatrix}
+e^{-i\phi/2}\cos(\theta/2)\\ 
+e^{i\phi/2} \sin(\theta/2)
+\end{pmatrix},\; \ket{-_{\textbf{d}}} = \begin{pmatrix}
+-e^{-i\phi/2}\sin(\theta/2)\\ 
+e^{i\phi/2} \cos(\theta/2)
+\end{pmatrix}.
+\end{align}
+We wish to find the Berry connection and curvature, given by
+\begin{align}
+    \textbf{A}^\pm (\bf d) &= i\braket{\pm_\textbf{d} | \nabla_\textbf{d}| \pm_\textbf{d}}\\
+    \textbf{B}^{\pm}(\bf d ) &= \nabla_\textbf{d} \wedge \textbf{A}^\pm (\bf d).
+\end{align}
+From here it is possible to directly evaluate the Berry curvature of the two eigenstates, however there is an easier way of doing this, using a trick first proposed by Berry in \cite{berry_quantal_1984}. First we note that $ \nabla_\textbf{d} \braket{\pm_\textbf{d} | \pm_\textbf{d}} = 0$, due to invariance of the norm. Thus we can show that $\braket{\pm_\textbf{d} | \nabla_\textbf{d}| \pm_\textbf{d}}$ is pure imaginary. Expressing this in terms of a general state $\ket{n}$ ,
+\begin{align}
+    \textbf{A} (d) &= -\textup{Im} \braket{n | \nabla| n}.
+\end{align}
+Now, in summation notation our expression for $\textbf{B}$ is
+\begin{align}
+    B_j &= -\textup{Im}\;\epsilon_{jkl}\,\partial_k\, \braket{n | \partial_l| n}\\
+    &=-\textup{Im}\; \epsilon_{jkl}\braket{\partial_k n|\partial_l n}
+\end{align}
+We then insert a resolution of the identity to get
+\begin{align}
+    \textbf{B} = -\textup{Im}\;\sum_{n'\neq n}\braket{\nabla n|n'}\wedge\braket{n'|\nabla n}
+\end{align}
+For two general orthogonal states $\ket{n}$ and $\ket{n'}$
+\begin{align}
+    \nabla (\hat H \ket{m}) &= \nabla (E_n \ket{n})\\
+    \nabla \hat H \ket{m}+\hat  H\ket{\nabla n} &= \nabla E_n \ket{n}+ E_n\ket{\nabla n} .
+\end{align}
+Pre-multiplying by $\bra{n'}$ gives
+\begin{align}
+\braket{n'|\nabla\hat  H|n} + E_{n'}\braket{n'|\nabla n} = E_n\braket{n' | \nabla n},
+\end{align}
+therefore
+\begin{align}
+    \braket{n'|\nabla n} = \frac{\braket{n'|\nabla\hat  H|n}}{E_n - E_{n'}}.
+\end{align}
+And so we get a final expression for $\bf B$
+\begin{align}\label{berry_formula}
+\textbf{B} = -\textup{Im}\;\sum_{n'\neq n} \frac{\braket{n|\nabla\hat  H|n'} \wedge \braket{n'|\nabla\hat  H|n}}{(E_n - E_{n'})^2}.
+\end{align}
+From this we can see that the Berry curvature of the $\ket{+_\textup{d}}$ state is given by
+\begin{align}
+    \textup{B} = -\textup{Im}\; \frac{\braket{+|\nabla H|-} \wedge \braket{-|\nabla H|+}}{4\textbf{d}^2}.
+\end{align}
+To simplify the calculations we will quantise in a basis of states parallel to $\textbf{d}$. Thus, our states are
+\begin{align}
+    \ket{+_{\textbf{d}}} = \begin{pmatrix}
+1\\ 
+0
+\end{pmatrix},\; \ket{-_{\textbf{d}}} = \begin{pmatrix}
+0\\ 
+1
+\end{pmatrix}.
+\end{align}
+The grad of the Hamiltonian is
+\begin{align}
+    \nabla_\textbf{d} (\textbf{d} \cdot \hat{\sigma} )= \hat{\sigma}
+\end{align}
+
+\begin{shaded}
+Quick point of confusion, just in case you were wondering why we could simplify the calculation so much without losing information. All we have done is pick a basis in which to express our states and Hamiltonian such that the calculation at that particular point in d-space is trivial. If you want to know what the value of $\textbf{B}$ is in a different place, then you can just rotate the coordinates again to get them parallel with $\textbf{d}$ and again you get an identical calculation. This might seem kind of obvious, but I had to think about it.
+\end{shaded}
+Now we find the values of $\braket{-|\sigma_j | +}$:
+\begin{align}
+    \braket{-|\sigma_x | +} &= 1 \\
+    \braket{-|\sigma_y | +} &= i \\
+    \braket{-|\sigma_z | +} &= 0 \\
+\end{align}
+And we arrive at 
+\begin{equation}
+    \braket{+|\hat{\sigma} | -} \wedge \braket{-|\hat{\sigma} | +} = \begin{pmatrix}
+    0 \\
+    0 \\
+    2i
+    \end{pmatrix}
+\end{equation}
+The Berry curvature always points outwards from the origin in d-space, thus we arrive at the final expression
+\begin{align}
+    \textbf{B}^{\pm} = \pm \frac{\hat{n}_\textbf{d}}{2\textbf{d}^2}
+\end{align}
+where $\hat{n}_\textbf{d}$ is a unit vector pointing in the direction of $\textbf{d}$.\par
+
+\section{Eigenstates of the QWZ Model}\label{sec:QWZ_model_appendix}
+
+We are looking for the solutions to the semi-bulk Hamiltonian
+\begin{align}
+    H(k_y) &= \sum_{m_x} \ket{m_x+1}\bra{m_x} \otimes \frac{\sigma_z + i\sigma_x}{2} + h.c.\nonumber \\
+    &+ \sum_{m_x} \ket{m_x}\bra{m_x} \otimes \left [ (u_{m_x} + \cos k_y) \; \sigma_z + \sin k_y \; \sigma_y  \right ].
+\end{align}
+From here on in, we will only be able to use Bloch's theorem in the $y$ direction, so we drop $y$ subscripts on $k_y$. We look at a system where the Hamiltonian has open boundaries in $x$ and uniform $u$ throughout. For clarity we display the Hamiltonian in the following form
+\begin{align}
+    H(k_y) = \begin{pmatrix}
+ A& B &  &  & &\\ 
+ B^\dag& A &B  &  & &\\ 
+ &  B^\dag& A &  \ddots& &\\ 
+ &  &  \ddots& \ddots & &\\ 
+ &  &  & & &B\\
+ &  & & & B^\dag & A
+\end{pmatrix},
+\end{align}
+with $A$ and $B$ being the $2\times2$ matrices
+\begin{align}
+    A &= (u + \cos k) \; \sigma_z + \sin k \; \sigma_y,  \\ 
+    B &= \frac{\sigma_z + i\sigma_x}{2}.
+\end{align}
+By writing wavevectors in terms of a set of $L_x$ two-element states $\psi_n$
+\begin{align}
+    \ket{\psi} = \begin{pmatrix}
+    \psi_0 \\
+    \psi_1 \\
+    \vdots \\
+    \psi_{L_x -1}
+     \end{pmatrix},
+\end{align}
+we arrive at three equations for the eigenvalues of the semi-bulk Hamiltonian.
+\begin{align}
+    \textup{Bulk:} &\ A\psi_n + B\psi_{n+1} + B^\dag \psi_{n-1} = \lambda \psi_n \\
+    \textup{Left Edge:} &\ A\psi_1 + B\psi_{2} = \lambda \psi_1\\
+    \textup{Right Edge:} &\ A\psi_{L_x} + B^\dag \psi_{L_x-1}  = \lambda \psi_n
+\end{align}
+An equivalent way of writing the two edge conditions above is to say that we require
+\begin{align}
+    B^\dag \psi_{0} &= 0\\
+    B \psi_{L_x+1} &= 0.
+\end{align}
+Solutions to this equation fall into two categories, bulk states and edge states. We will solve for each separately.\par
+Before we continue, it is a good idea to change the basis we are using to make the form of the $B$ matrix simpler. This matrix is essentially a creation/annihilation operator, so there should be a basis in which the matrix has the form
+\begin{align}
+    \tilde{B} = \begin{pmatrix}
+    0 & 1 \\
+    0 & 0 
+     \end{pmatrix}.
+\end{align}
+This can be done using the unitary transformation operator
+\begin{align}
+    U = \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 & 1 \\
+    i & -i 
+     \end{pmatrix}.
+\end{align}
+Using this expression for $U$ we have 
+\begin{align}
+    \tilde B  = U^\dag B U 
+\end{align}
+and 
+\begin{align}
+    \tilde A &= U^\dag A U \\
+    &= (u + \cos k) \; \sigma_x + \sin k \; \sigma_z.
+\end{align}
+In the following work we will replace all $A$s and $B$s with $\tilde A$ and $\tilde B$ and drop the tilde. 
+
+\subsection{Bulk States}
+With this established, we can now solve the bulk equation for its eigenstates using the following ansatz
+\begin{align}
+    \psi_n = e^{i\theta n}\phi_{\theta},
+\end{align}
+with $0 \leq \theta < \pi$. Plugging this into the bulk equation we arrive at
+\begin{align}
+    A\phi_{\theta} + Be^{i\theta}\phi_{\theta} + B^\dag e^{-i\theta} \phi_{\theta} = \lambda \phi_{\theta}
+\end{align}
+which can be rearranged to the following bulk Hamiltonian,
+\begin{align}
+    H(\theta, k) = \begin{pmatrix}
+ u + \cos \theta+ \cos k \\ 
+- \sin \theta\\ 
+ \sin k
+\end{pmatrix} \cdot \bm \sigma.
+\end{align}
+The eigenvalues of this matrix are
+\begin{align}
+    \lambda_{\pm} = \pm E,
+\end{align}
+for
+\begin{align}
+    E = \left [ \sin^2 k + \sin^2 \theta  + \left ( u + \cos \theta+ \cos k \right)^2 \right ]^{\frac{1}{2}}.
+\end{align}
+It has (unnormalised) eigenvectors
+\begin{align}\label{eigenvectors}
+    \phi_+ &= \begin{pmatrix}
+\sin k + E\\
+u + \cos k + e^{-i\theta}
+\end{pmatrix}\\ 
+    \phi_- &=\begin{pmatrix}
+-u -  \cos k - e^{i\theta}\\
+\sin k + E
+\end{pmatrix}
+\end{align}
+We could normalise these if we wanted to, but it gets messy, instead we notice that the eigenvalues of a Hamiltonian of the form $H = \bf n \cdot \bm \sigma$ are always $E = \pm |\bf n |$. This is useful, it means that for a given $\theta$ we have a pair of states $ \phi_\theta ^\pm$ with energy $\pm E_\theta$. However, looking at the expression for $E$ we see that $E_\theta = E_{-\theta}$. Since these states have the same energy, we can use them to construct standing-wave solutions according to
+\begin{align}
+    \ket{\psi^\pm_{|\theta|} }= \frac{1}{\sqrt{L_x}}\sum \ket{m}  \otimes \left [ \alpha e^{i \theta m} \ket{\phi_{\theta}^{\pm}} + \beta e^{-i \theta m} \ket{\phi_{-\theta}^{\pm}} \right ],
+\end{align}
+with the condition $|\alpha|^2 + |\beta|^2=1$.\par
+Before we continue let's notice one more thing. In $d$-space, we can see that $H(\theta, k) $ and $H(-\theta, k)$  are related by a reflection in the $y$-axis. This means that there exists an operator $\mathcal{S}$ that has the following property
+\begin{align}
+    \mathcal{S}^{-1} H(\theta,k)\mathcal{S}  = H(-\theta,k).
+\end{align}
+As it turns out, this operator is
+\begin{align}
+    \mathcal{S} = \mathcal{K},
+\end{align}
+Where $\mathcal{K}$ represents complex conjugation\footnote{$\mathcal{K}$ stands for komplexx, which is like complex but way cooler.}. This is pretty useful since you can show that if
+\begin{align}
+    H(\theta,k)\phi^\pm _{\theta} = \pm E_\theta \phi^\pm _{\theta}
+\end{align}
+then 
+\begin{align}
+    H(-\theta,k) \mathcal{S} \phi^\pm _{\theta} = \pm E_\theta \mathcal{S} \phi^\pm _{\theta},
+\end{align}
+which means that
+\begin{align}
+    {\phi^{\pm} _{\theta}}^*  = \phi^\pm _{-\theta}.
+\end{align}
+This gives us a straightforward transformation between the two states that we use to make up our ansatz for $\phi^\pm_{|\theta|}$. We have a final expression for $\psi_n$
+\begin{align}
+    \psi_{\theta,n} ^{\pm} = \alpha e^{i \theta m} \phi_{\theta}^{\pm} + \beta e^{-i \theta m} {\phi_{\theta}^{\pm}}^*.
+\end{align}
+For the following argument, lets assume that 
+\begin{align}
+    \phi_{\theta}^{\pm} = \begin{pmatrix}
+    u \\ 
+    v
+    \end{pmatrix}.
+\end{align}\par
+Now we think about fixing the boundary conditions. We start with the left side boundary condition
+\begin{align}
+    B^\dag \psi_{0} &= 0.
+\end{align}
+Inserting our ansatz into this expression gives
+\begin{align}
+    \alpha u + \beta u^* = 0.
+\end{align}
+We then move on to the right side boundary condition
+\begin{align}
+    B \psi_{L_x + 1 } = 0,
+\end{align}
+and we insert our ansatz again to get
+\begin{align}
+    \alpha e^{i\theta (L_x + 1 )} v + \beta e^{-i\theta (L_x + 1 )} v^* = 0.
+\end{align}
+We can now solve these expressions to get
+\begin{align}
+    \frac{\beta}{\alpha} = - \frac{u}{u*} =  - e^{2i\theta (L_x + 1 )}\frac{v}{v*}.
+\end{align}
+Now we must look separately at $\phi^+$ and $\phi^-$, for $\phi^+$, $u$ is real in expression \ref{eigenvectors}, so the expression becomes
+\begin{align}
+    1 = e^{2i\theta (L_x + 1 )}\frac{u + \cos k + e^{-i\theta}}{u + \cos k + e^{i\theta}}.
+\end{align}
+
+\subsection{Edge States}
+ For the edge states we return to our bulk and edge eigenvalue equations. However now we are looking at states that live only on one edge of the system. We will be looking at two edge states, one that lives on the left edge and one that lives on the right.\par
+We rephrase the bulk and edge equations that need to be satisfied
+\begin{align}
+    \textup{Bulk:} &\ A\psi_n + B\psi_{n+1} + B^\dag \psi_{n-1} = \lambda \psi_n \\
+    \textup{Left Edge:} &\ A\psi_1 + B\psi_{2} = \lambda \psi_1\\
+    \textup{Right Edge:} &\ A\psi_{L_x} + B^\dag \psi_{L_x-1}  = \lambda \psi_n.
+\end{align}
+This time we guess an ansatz that looks like
+\begin{align}
+    \psi_n = \xi^n \phi,
+\end{align}
+where $\xi$ is a real number between -1 and 1. We are making the assumption that left side edge state will have decayed to nothing by the time it reaches the other side, we only need to satisfy the left edge boundary condition, and the same with the right edge state. This means we are working in the limit of a semi-infinite chain. Thus that we just need to guess a value of $\phi$ that satisfies 
+\begin{align}
+    B^\dag \phi = 0,
+\end{align}
+which has the solution
+\begin{align}
+    \phi_{\textup{left}} = \begin{pmatrix}
+    0\\
+    1
+    \end{pmatrix}.
+\end{align}
+We now look at solving what's left of the bulk equation
+\begin{align}
+    (A + \xi B - \lambda)\phi_{\textup{left}} = 0,
+\end{align}
+to give the following two equations
+\begin{align}
+    \lambda &= -\sin k,\\
+    \xi &= -u - \cos k.
+\end{align}
+Note that this solution only gives decaying results for $-1 < u+\cos k < 1$. Which corresponds with the window of $k$ values where edge states appear.
+Thus we get a final wavefunction that looks like
+\begin{align}
+    \ket{\psi^{\textup{left}}_k} = \sqrt{1-\xi^2}\sum_{m=1}^{L_x} \xi^{m-1}\ket m \otimes \begin{pmatrix}
+    0\\
+    1
+    \end{pmatrix}.
+\end{align}
+We can repeat the entire derivation for a right hand side wavefunction to get
+\begin{align}
+    \ket {\psi^{\textup{right}}_k} = \sqrt{1-\xi^2} \sum_{m=1}^{L_x} \xi^{L_x-m} \ket m \otimes  \begin{pmatrix}
+    1\\
+    0
+    \end{pmatrix}.
+\end{align}
+with the extra conditions
+\begin{align}
+    \lambda &= \sin k,\\
+    \xi &= -u-\cos k. \label{eqn:edge_condition}
+\end{align}
+Great.
+
+\section{Taylor Expanding the Bott Index in Strip Geometry}\label{sec:bott_derivatives}
+We want to Taylor expand the following operator,
+\begin{align}
+	\hat M_{k_y} &= \hat P_{k_y}  e^{i \delta_x \hat x}  \hat P_{k_y} \hat P_{k_y - \delta_y} e^{-i \delta_x \hat x}  \hat P_{k_y - \delta_y} \hat P_{k_y} + \hat Q_{k_y}.
+\end{align}
+This has the following set of derivatives in $\delta_x$ and $\delta_y$
+\begin{align}
+	\begin{split}
+		\partial_{\delta_x} \hat M_{k_y} = 
+		& i \hat P_{k_y} \hat x  e^{i \delta_x \hat x}  \hat P_{k_y} \hat P_{k_y - \delta_y} e^{-i \delta_x \hat x}  \hat P_{k_y - \delta_y} \hat P_{k_y} \\
+		&-  i \hat P_{k_y}   e^{i \delta_x \hat x}  \hat P_{k_y} \hat P_{k_y - \delta_y} \hat x e^{-i \delta_x \hat x}  \hat P_{k_y - \delta_y} \hat P_{k_y},
+	\end{split}\\
+	\begin{split}
+		\partial_{\delta_x}^2 \hat M_{k_y} = 
+		& - \hat P_{k_y} \hat x^2  e^{i \delta_x \hat x}  \hat P_{k_y} \hat P_{k_y - \delta_y} e^{-i \delta_x \hat x}  \hat P_{k_y - \delta_y} \hat P_{k_y} \\
+		&-   \hat P_{k_y}   e^{i \delta_x \hat x}  \hat P_{k_y} \hat P_{k_y - \delta_y} \hat x^2 e^{-i \delta_x \hat x}  \hat P_{k_y - \delta_y} \hat P_{k_y}\\
+		&+ 2\hat P_{k_y} \hat x  e^{i \delta_x \hat x}  \hat P_{k_y} \hat P_{k_y - \delta_y} \hat x e^{-i \delta_x \hat x}  \hat P_{k_y - \delta_y} \hat P_{k_y} ,
+	\end{split}\\
+	\begin{split}
+		\partial_{\delta_y} \hat M_{k_y} = 
+		&  \hat P_{k_y} e^{i \delta_x \hat x}  \hat P_{k_y} \partial_{\delta_y} \hat P_{k_y - \delta_y} e^{-i \delta_x \hat x}  \hat P_{k_y - \delta_y} \hat P_{k_y}\\
+		&+  \hat P_{k_y} e^{i \delta_x \hat x}  \hat P_{k_y}\hat P_{k_y - \delta_y} e^{-i \delta_x \hat x}  \partial_{\delta_y}  \hat P_{k_y - \delta_y} \hat P_{k_y},
+	\end{split}\\
+	\begin{split}
+		\partial_{\delta_y}^2 \hat M_{k_y} = 
+		&  \hat P_{k_y} e^{i \delta_x \hat x}  \hat P_{k_y} \partial_{\delta_y}^2 \hat P_{k_y - \delta_y} e^{-i \delta_x \hat x}  \hat P_{k_y - \delta_y} \hat P_{k_y}\\
+		&+  \hat P_{k_y} e^{i \delta_x \hat x}  \hat P_{k_y}\hat P_{k_y - \delta_y} e^{-i \delta_x \hat x}  \partial_{\delta_y}^2  \hat P_{k_y - \delta_y} \hat P_{k_y}\\
+		&+2  \hat P_{k_y} e^{i \delta_x \hat x}  \hat P_{k_y} \partial_{\delta_y} \hat P_{k_y - \delta_y} e^{-i \delta_x \hat x}  \partial_{\delta_y}  \hat P_{k_y - \delta_y} \hat P_{k_y},
+	\end{split}
+\end{align}
+and finally
+\begin{align}
+	\begin{split}
+		\partial_{\delta_x}\partial_{\delta_y} \hat M_{k_y} = 
+		& i \hat P_{k_y} \hat x  e^{i \delta_x \hat x}  \hat P_{k_y}\partial_{\delta_y}  \hat P_{k_y - \delta_y} e^{-i \delta_x \hat x}  \hat P_{k_y - \delta_y} \hat P_{k_y} \\
+		&+ i \hat P_{k_y} \hat x  e^{i \delta_x \hat x}  \hat P_{k_y} \hat P_{k_y - \delta_y} e^{-i \delta_x \hat x}  \partial_{\delta_y}\hat P_{k_y - \delta_y} \hat P_{k_y} \\
+		&-  i \hat P_{k_y}   e^{i \delta_x \hat x}  \hat P_{k_y} \partial_{\delta_y}\hat P_{k_y - \delta_y} \hat x e^{-i \delta_x \hat x}  \hat P_{k_y - \delta_y} \hat P_{k_y}\\
+		&-  i \hat P_{k_y}   e^{i \delta_x \hat x}  \hat P_{k_y} \hat P_{k_y - \delta_y} \hat x e^{-i \delta_x \hat x}  \partial_{\delta_y}\hat P_{k_y - \delta_y} \hat P_{k_y}.
+	\end{split}
+\end{align}
+Awful. Now we set $\delta_x = \delta_y = 0 $ to get
+\begin{align}
+	\begin{split}
+		\left . \partial_{\delta_x} \hat M_{k_y} \right |_{\delta_x , \delta_y = 0} &= 
+		 i \hat P_{k_y} \hat x  \hat P_{k_y} -  i \hat P_{k_y}  \hat x\hat P_{k_y}\\
+		& = 0,
+	\end{split}\\
+	\begin{split}
+		\left . \partial_{\delta_x}^2 \hat M_{k_y} \right |_{\delta_x , \delta_y = 0} & = 
+		 - 2\hat P_{k_y} \hat x^2   \hat P_{k_y} + 2\hat P_{k_y} \hat x  \hat P_{k_y} \hat x \hat P_{k_y} ,
+	\end{split}\\
+	\begin{split}
+		\left . \partial_{\delta_y} \hat M_{k_y} \right |_{\delta_x , \delta_y = 0}& = 
+		 -2\hat P_{k_y} \left ( \partial_{k_y} \hat P_{k_y} \right ) \hat P_{k_y},
+	\end{split}\\
+	\begin{split}
+		\left . \partial_{\delta_y}^2 \hat M_{k_y} \right |_{\delta_x , \delta_y = 0}& = 
+		 2 \hat P_{k_y} \left ( \partial_{k_y}^2 \hat P_{k_y}  \right ) \hat P_{k_y}
+		+2  \hat P_{k_y}    \left ( \partial_{k_y} \hat P_{k_y } \right )^2 \hat P_{k_y},
+	\end{split}\\
+	\begin{split}
+		\left . \partial_{\delta_x}\partial_{\delta_y} \hat M_{k_y} \right |_{\delta_x , \delta_y = 0}&= 
+		-2 i \hat P_{k_y} \hat x \hat P_{k_y} \left ( \partial_{k_y}  \hat P_{k_y} \right)  \hat P_{k_y} \\
+		&+  i   \hat P_{k_y} \partial_{k_y}\hat P_{k_y} \hat x  \hat P_{k_y } 
+		+ i  \hat P_{k_y} \hat x  \partial_{k_y}\hat P_{k_y} \hat P_{k_y}.
+	\end{split}
+\end{align}
+Thankfully we can also use the identity $\hat P_{k_y}  \left ( \partial_{k_y} \hat P_{k_y} \right ) \hat P_{k_y} = 0$ to throw away some of these terms and we label the projected $x$ operator $\hat X_{k_y} = \hat P_{k_y} \hat x  \hat P_{k_y}$. We arrive at the following Taylor expansion
+\begin{align}
+	\begin{split}
+		\hat M_{k_y}  &= \hat P_{k_y} + \hat Q_{k_y} \\
+		&+i  \delta_x \delta_y \hat P_{k_y} \partial_{k_y} \hat X_{k_y} \hat P_{k_y} \\ 
+		&+ \delta_x^2 \hat P_{k_y} \hat x  \hat Q_{k_y} \hat x \hat P_{k_y} \\
+		&+ \delta_y^2 \left [\hat P_{k_y} \left ( \partial_{k_y}^2 \hat P_{k_y}  \right ) \hat P_{k_y} +  \hat P_{k_y}    \left ( \partial_{k_y} \hat P_{k_y } \right )^2 \hat P_{k_y} \right ].
+	\end{split}
+\end{align}
+This operator has the form $M = \1 + \hat S$, where $\hat S$ is small. This means we can use the identity $\log \left ( \1 + \hat S \right ) \approx \hat S$. Furthermore in the rest of the calculation of the Bott index, we will take an expectation value of this operator at some point in space and look only at the imaginary part. This allows us to throw away the $\delta_x ^2$ and $\delta_y^2$ parts, since they are Hermitian, so will only contribute real values to the expectation value. Thus we arrive at our final expression for the Taylor expansion
+\begin{align}
+	\begin{split}
+		\hat M_{k_y}  = \1
+		+i \delta_x \delta_y \hat P_{k_y} \partial_{k_y} \hat X_{k_y} \hat P_{k_y} .
+	\end{split}
+\end{align}
+
+
+
+
+

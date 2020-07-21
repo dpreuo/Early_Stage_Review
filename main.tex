@@ -1,0 +1,112 @@
+\documentclass[11pt, oneside]{article}  	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage[left=2cm,top=3cm,right=2cm,bottom=4cm,head=1cm,a4paper]{geometry}    
+\usepackage[utf8]{inputenc}
+
+\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage{amssymb}
+\setlength\intextsep{11pt}
+\usepackage{braket}
+\numberwithin{equation}{section}
+\usepackage{bm}
+\usepackage{appendix}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{bbm}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+
+
+%Tikz stuff:
+\usepackage{tikz}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{arrows,positioning} 
+\usepackage{pgfplots}
+
+%Define that shaded box you like
+\usepackage[noframe]{showframe}
+\usepackage{framed}
+\renewenvironment{shaded}{%
+    \everypar={{\setbox0=\lastbox}\everypar{}}
+  \def\FrameCommand{\fboxsep=\FrameSep \colorbox{shadecolor}}%
+  \MakeFramed{\advance\hsize-\width \FrameRestore\FrameRestore}}%
+ {\endMakeFramed}
+\definecolor{shadecolor}{gray}{0.9}
+\renewcommand{\thefootnote}{\roman{footnote}}
+
+
+\titleformat{\section}
+  {\normalfont\fontsize{15}{16}\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont \fontsize{13}{14}\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalfont\fontsize{12}{13}\selectfont}{\thesubsubsection}{1em}{}
+
+
+\bibliographystyle{unsrt}
+
+\usepackage{wrapfig}
+\usepackage[justification=centering]{caption}
+
+\newcommand{\dline}[1]{\underline{\underline{#1}}}
+\newcommand{\tr}{\ensuremath{\textup{Tr}}}
+\newcommand{\1}{\ensuremath{\mathbbm{1}}}
+\renewcommand{\bf}[1]{\ensuremath{\textbf{#1}}}
+\renewcommand{\Re}{\ensuremath{\textup{Re}}}
+\renewcommand{\Im}{\ensuremath{\textup{Im}}}
+\newcommand{\ts}{\textsuperscript}
+\renewcommand{\r}{\ensuremath{\textbf{r}}}
+
+\usepackage{titlesec}
+
+
+
+
+
+
+\title{\textbf{\huge{Early Stage Review}} \\
+% \large{What have we Achieved?} \\
+% \tiny{And why?}
+}
+
+\author{Peru d'Ornellas}
+%\date{}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\section{Introduction}
+\input{introduction.tex}
+
+\section{Translationally Symmetric Quantum Systems}\label{sec:quantum_systems}
+\input{periodic_quantum_systems.tex}
+
+\section{Abelian Berry Phase, Chern Number and Topology} \label{sec:chern_number}
+\input{chern_number.tex}
+
+\section{The Qi-Wu-Zhang Model}\label{sec:QWZ}
+\input{QWZ.tex}
+
+
+\section{Local Chern Markers} \label{sec:local_chern_markers}
+\input{local_markers.tex}
+
+\section{Strip Geometry and Adiabatic Bott Index} \label{sec:strip_bott}
+\input{strip_bott.tex}
+
+\section{Conclusions and Outlook}
+\input{conclusion.tex}
+\small
+\bibliography{early_stage_review.bib}
+\normalsize
+\input{appendices.tex}
+
+\end{document}
